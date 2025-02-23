@@ -1,0 +1,23 @@
+form{
+    text-align: center;
+    mat-form-field{
+      width: 50%;
+    }
+  }
+  .btngroup{
+    display: flex;
+    justify-content: space-around;
+    margin: 2vh;
+  }
+  .audiogroup{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 5vh 0 5vh 0;
+    .player{
+      display: block;
+      text-align: center;
+      .errorLabel {
+        color:palevioletred;
+      }
+    }
+  }
