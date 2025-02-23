@@ -1,0 +1,82 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>SIP phone</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content *ngIf="!isRegistered">
+        <form [formGroup]="UARegistrationForm">
+            <mat-form-field>
+                <mat-label for="sip_uri">SIP URI:</mat-label>
+                <input matInput placeholder="SIP URI (i.e: sip:4002@192.168.1.10)" formControlName="sipURI">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label for="sip_password">SIP Password:</mat-label>
+                <input matInput type="password" placeholder="SIP password" formControlName="sipPassword" />
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label for="ws_uri">WSS URI:</mat-label>
+                <input matInput placeholder="WSS URI (i.e: wss://192.168.1.10:8089/ws)" formControlName="wsURI" />
+            </mat-form-field>
+            <br>
+        </form>
+        <mat-card-actions>
+            <div class="btngroup">
+                <button mat-fab matTooltip="User Register" color="primary" *ngIf="!isRegistered" (click)="register()">
+                    <mat-icon>how_to_reg</mat-icon>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card-content>
+    <mat-card-content *ngIf="isRegistered">
+        <form [formGroup]="callToForm">
+            <mat-form-field>
+                <mat-label class="input_label" for="sip_phone_number">llamar a:</mat-label>
+                <input matInput placeholder="sip:4001@192.168.40.96:5060" formControlName="sipPhoneNumber">
+            </mat-form-field>
+        </form>
+        <mat-card-actions>
+            <div class="btngroup">
+                <button mat-fab matTooltip="Call" color="accent" *ngIf="originator==''" (click)="call()">
+                    <mat-icon>call</mat-icon>
+                </button>
+
+                <button mat-fab matTooltip="Answer" color="accent" *ngIf="originator=='remote'" (click)="answer()">
+                    <mat-icon>call</mat-icon>
+                </button>
+                <button mat-fab matTooltip="Hangup" color="warn" *ngIf="originator!='' " (click)="hungup()">
+                    <mat-icon>call_end</mat-icon>
+                </button>
+                <button mat-fab matTooltip="Hangup" color="PRIMARI" *ngIf="originator!='' " (click)="switchMute()">
+                    <mat-icon>{{isMuted?'mic_off':'mic_on'}}</mat-icon>
+                </button>
+            </div>
+        </mat-card-actions>
+    </mat-card-content>
+
+    <div>
+        incoming User: {{incomingUser}}
+        <br>
+        originator: {{originator}}
+        <br>
+        isMuted: {{isMuted}}
+        <br>
+        isRegistered: {{isRegistered }}
+        <br>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="audiogroup">
+        <div class="player">
+            <mat-label for="localAudio">Local media stream</mat-label>
+            <br>
+            <audio #localAudio controls [ngStyle]="{'visibility': (showLocalAudio?'visible':'hidden')}"></audio>
+        </div>
+        <div class="player">
+            <mat-label for="remoteAudio">Remote media stream</mat-label>
+            <br>
+            <audio #remoteAudio controls [ngStyle]="{'visibility': (showRemoteAudio?'visible':'hidden')}"></audio>
+        </div>
+    </div>
+</mat-card>
